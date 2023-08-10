@@ -4,17 +4,25 @@ namespace Core
 {
     internal class Run : MonoBehaviour
     {
-        [SerializeField] private GameObject _bikePrefab;
-        [SerializeField] private GameObject _terrainPrefab;
+        public static Run Instance;
+
+        [SerializeField] private Settings _settings;
         private Game _game;
 
-        void Start()
+        public Settings Settings => _settings;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
+
+        private void Start()
         {
             _game = new Game();
             _game.Initialize();
         }
 
-        void Update()
+        private void Update()
         {
             _game.Update();
         }

@@ -14,6 +14,8 @@ namespace Core
         public void Initialize()
         {
             _bike = new Bike();
+            _bike.Initialize();
+
             _location = new Location();
         }
 

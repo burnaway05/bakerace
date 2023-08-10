@@ -419,5 +419,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3425b84b2474f1e44ad998d1bcd4ea2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bikePrefab: {fileID: 3200524243304501839, guid: e737acfd300ad37479bb618439a7b60a, type: 3}
-  _terrainPrefab: {fileID: 6231031828943599260, guid: 0fca43da7a199804eafc433b44210241, type: 3}
+  _settings: {fileID: 11400000, guid: 93d8dc045f0ba5047a105746f0f5e283, type: 2}
