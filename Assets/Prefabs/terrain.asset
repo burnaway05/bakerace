@@ -6,7 +6,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Terrain2D_mesh_18808
+  m_Name: terrain
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
