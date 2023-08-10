@@ -4,17 +4,13 @@ namespace Core
 {
     internal class Bike
     {
-        private GameObject _view;
-
-        public Bike()
-        {
-
-        }
+        private BikeView _view;
 
         public void Initialize()
         {
             var settings = Run.Instance.Settings;
-            _view = Object.Instantiate(settings.BikePrefab);
+            var obj = Object.Instantiate(settings.BikePrefab, settings.StartBikePosition, Quaternion.identity);
+            _view = obj.GetComponent<BikeView>();
         }
 
         public void Accelerate()

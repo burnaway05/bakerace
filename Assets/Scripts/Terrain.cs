@@ -2,37 +2,40 @@ using UnityEngine;
 
 namespace Core
 {
-    internal class Location
+    internal class Terrain
     {
-        public GameObject Terrain;
-        int Height = 50;
-        float RndHeight = 25;
-        float RndAmplitude = 5;
-        int Width = 50;
-        int RndHillsCount = 5;
-        int MainTextureSize = 15;
-        Vector3 rightEdgePosition;
+        const int Height = 50;
+        const int Width = 50;
+        const float RndHeight = 25;
+        const float RndAmplitude = 5;
+        const int RndHillsCount = 5;
+        const int MainTextureSize = 15;
 
-        /*
-        void GenerateMesh()
+        private TerrainView _view;
+
+        public Terrain(Vector3 position)
         {
-            GameObject newTerrain = Instantiate(Terrain, new Vector3(rightEdgePosition.x, 0, 0), Quaternion.identity);
+            var settings = Run.Instance.Settings;
+            var obj = Object.Instantiate(settings.TerrainPrefab, position, Quaternion.identity);
+            _view = obj.GetComponent<TerrainView>();
+        }
 
-            Mesh pathMesh = newTerrain.GetComponent<MeshFilter>().mesh;
-
-            Vector3[] vertices = newTerrain.GetComponent<MeshFilter>().sharedMesh.vertices;
+        public void DeformMesh(Vector3 previousRightTop)
+        {
+            Mesh pathMesh = _view.GetComponent<MeshFilter>().mesh;
+            Vector3[] vertices = _view.GetComponent<MeshFilter>().sharedMesh.vertices;
 
             int v = Width / RndHillsCount;
             int step = 0;
 
-            float a = GetRandomHeightPoint();
-            vertices[0].y = rightEdgePosition.y;
+            float a = GetRandomHeight();
+            vertices[0].y = previousRightTop.y;
 
             for (int i = 2; i < vertices.Length; i += 2)
             {
                 if (step >= v)
                 {
-                    a = GetRandomHeightPoint();
+                    a = GetRandomHeight();
                     step = 0;
                 }
 
@@ -41,28 +44,31 @@ namespace Core
                 step++;
             }
 
-            rightEdgePosition = newTerrain.transform.localPosition + vertices[vertices.Length - 2];
-
             pathMesh.vertices = vertices;
-            pathMesh.uv = GetMeshUv(vertices);
+            pathMesh.uv = GetMeshUV(vertices);
             pathMesh.RecalculateBounds();
             UpdateCollider2D();
         }
 
-        float GetRandomHeightPoint()
+        float GetRandomHeight()
         {
             float a = RndHeight - RndAmplitude;
             float b = RndHeight + RndAmplitude;
 
             if (a < 0.1f)
+            {
                 a = 0.1f;
+            }
+
             if (b > Height)
+            {
                 b = Height;
+            }
 
             return Random.Range(a, b);
         }
 
-        Vector2[] GetMeshUv(Vector3[] vertices)
+        Vector2[] GetMeshUV(Vector3[] vertices)
         {
             Vector2[] uv = new Vector2[vertices.Length];
 
@@ -77,7 +83,7 @@ namespace Core
 
         public void UpdateCollider2D()
         {
-            if (GetComponent<EdgeCollider2D>() != null)
+            if (_view.GetComponent<EdgeCollider2D>() != null)
             {
                 Vector3[] path = GetPath(Space.Self);
                 Vector2[] colliderPath = new Vector2[path.Length];
@@ -87,16 +93,18 @@ namespace Core
                     colliderPath[i] = path[i];
                 }
 
-                GetComponent<EdgeCollider2D>().points = colliderPath;
+                _view.GetComponent<EdgeCollider2D>().points = colliderPath;
             }
         }
 
         public Vector3[] GetPath(Space relativeSpace)
         {
-            Mesh terrainMesh = gameObject.GetComponent<MeshFilter>().sharedMesh;
+            Mesh terrainMesh = _view.GetComponent<MeshFilter>().sharedMesh;
 
             if (terrainMesh == null)
+            {
                 return null;
+            }
 
             Vector3[] path = new Vector3[terrainMesh.vertexCount / 2];
             int vertIndex = 0;
@@ -112,18 +120,31 @@ namespace Core
             {
                 for (int i = 0; i < terrainMesh.vertexCount; i += 2)
                 {
-                    path[vertIndex] = terrainMesh.vertices[i] + transform.position;
+                    path[vertIndex] = terrainMesh.vertices[i] + _view.transform.position;
                     vertIndex++;
                 }
             }
 
             return path;
         }
-        */
 
-        public void Update()
+        public Vector3 GetRightTopVertex()
         {
+            int vertices = _view.GetComponent<MeshFilter>().sharedMesh.vertices.Length;
 
+            return _view.GetComponent<MeshFilter>().sharedMesh.vertices[vertices - 2];
+        }
+
+        public Vector3 GetRightBottomPosition()
+        {
+            int vertices = _view.GetComponent<MeshFilter>().sharedMesh.vertices.Length;
+
+            return _view.transform.localPosition + _view.GetComponent<MeshFilter>().sharedMesh.vertices[vertices - 1];
+        }
+
+        public void DisableEnterTrigger()
+        {
+            _view.DisableTrigger();
         }
     }
 }

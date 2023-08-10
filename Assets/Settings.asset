@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BikePrefab: {fileID: 3200524243304501839, guid: e737acfd300ad37479bb618439a7b60a, type: 3}
   TerrainPrefab: {fileID: 6231031828943599260, guid: 0fca43da7a199804eafc433b44210241, type: 3}
+  StartBikePosition: {x: -3, y: 1, z: 0}
+  StartTerrainPosition: {x: -32, y: -26, z: 0}

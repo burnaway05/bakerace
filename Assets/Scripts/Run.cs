@@ -10,6 +10,7 @@ namespace Core
         private Game _game;
 
         public Settings Settings => _settings;
+        public Game Game => _game;
 
         private void Awake()
         {
