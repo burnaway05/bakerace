@@ -27,6 +27,12 @@ namespace Core
             _bike.Update();
         }
 
+
+        public void FixedUpdate()
+        {
+            _bike.FixedUpdate();
+        }
+
         public void SpawnTerrain()
         {
             if (_locations.Count > 0)
@@ -37,6 +43,26 @@ namespace Core
                 lastTerrain.DisableEnterTrigger();
                 _locations.Add(terrain);
             }
+        }
+
+        public void Accelerate()
+        {
+            _bike.Accelerate();
+        }
+
+        public void StopAccelerate()
+        {
+            _bike.StopAccelerate();
+        }
+
+        public void Brake()
+        {
+            _bike.Brake();
+        }
+
+        public void StopBrake()
+        {
+            _bike.StopBrake();
         }
     }
 }

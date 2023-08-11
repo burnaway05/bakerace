@@ -27,5 +27,10 @@ namespace Core
         {
             _game.Update();
         }
+
+        private void FixedUpdate()
+        {
+            _game.FixedUpdate();
+        }
     }
 }
