@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Core
 {
@@ -9,6 +8,13 @@ namespace Core
     {
         private Bike _bike;
         private List<Terrain> _locations;
+        private Camera _camera;
+        private float _maxDistance;
+
+        public Game(Camera camera)
+        {
+            _camera = camera;
+        }
 
         public void Initialize()
         {
@@ -25,6 +31,8 @@ namespace Core
         public void Update()
         {
             _bike.Update();
+            MoveCamera();
+            CheckMaxDistance();
         }
 
 
@@ -63,6 +71,23 @@ namespace Core
         public void StopBrake()
         {
             _bike.StopBrake();
+        }
+
+        public void MoveCamera()
+        {
+            Vector3 end = Vector3.MoveTowards(_camera.transform.position, _bike.GetPosition(), Run.Instance.Settings.CameraSpeed * Time.deltaTime);
+            end.z = _camera.transform.position.z;
+            _camera.transform.position = end;
+        }
+
+        public void CheckMaxDistance()
+        {
+            var passedDistance = _bike.GetPosition().x - Run.Instance.Settings.StartBikePosition.x;
+            if (passedDistance > _maxDistance)
+            {
+                _maxDistance = passedDistance;
+                Run.Instance.GUI.UpdateDistance(_maxDistance);
+            }
         }
     }
 }

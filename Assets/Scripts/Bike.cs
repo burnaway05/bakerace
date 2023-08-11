@@ -19,6 +19,11 @@ namespace Core
             _view = obj.GetComponent<BikeView>();
         }
 
+        public Vector3 GetPosition()
+        {
+            return _view.transform.position;
+        }
+
         public void Accelerate()
         {
             _isAccelerate = true;

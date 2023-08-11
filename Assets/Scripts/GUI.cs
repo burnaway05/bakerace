@@ -8,6 +8,7 @@ namespace Core
     {
         [SerializeField] private EventTrigger _right;
         [SerializeField] private EventTrigger _left;
+        [SerializeField] private Text _distance;
 
         private void Start()
         {
@@ -35,6 +36,11 @@ namespace Core
             leftUp.eventID = EventTriggerType.PointerUp;
             leftUp.callback.AddListener((eventData) => { Run.Instance.Game.StopBrake(); });
             _left.triggers.Add(leftUp);
+        }
+
+        public void UpdateDistance(float distance)
+        {
+            _distance.text = Mathf.Round(distance).ToString();
         }
     }
 }
