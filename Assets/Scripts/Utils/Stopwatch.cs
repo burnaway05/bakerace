@@ -1,8 +1,16 @@
 ﻿using System;
 
-namespace Core
+namespace Utils
 {
-    internal class Stopwatch
+    public interface IStopwatch
+    {
+        void Start();
+        void Stop();
+        bool IsStarted();
+        float GetSeconds();
+    }
+
+    public class Stopwatch : IStopwatch
     {
         private DateTime _wheelieTimer;
 

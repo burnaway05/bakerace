@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Gui;
 using UnityEngine;
 
 namespace Core
 {
-    internal class Game
+    internal class Game : IBikeControl
     {
         private Bike _bike;
         private List<Terrain> _locations;
@@ -94,7 +95,7 @@ namespace Core
             if (passedDistance > _maxDistance)
             {
                 _maxDistance = passedDistance;
-                Run.Instance.GUI.UpdateDistance(_maxDistance);
+                Run.Instance.Gui.UpdateDistance(_maxDistance);
             }
         }
 

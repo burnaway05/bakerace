@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Utils;
 using Object = UnityEngine.Object;
 
 namespace Core
@@ -9,7 +10,7 @@ namespace Core
         private BikeView _view;
         private bool _isAccelerate;
         private bool _isBrake;
-        private Stopwatch _wheelieStopwatch;
+        private IStopwatch _wheelieStopwatch;
 
         public void Initialize()
         {
@@ -86,23 +87,20 @@ namespace Core
 
         private void CheckForWheelie()
         {
-            if (_view.IsBackTireOnGround())
+            if (_view.IsBackTireOnGround() && !_view.IsFrontTireOnGround())
             {
-                if (!_view.IsFrontTireOnGround())
+                if (!_wheelieStopwatch.IsStarted())
                 {
-                    if (!_wheelieStopwatch.IsStarted())
-                    {
-                        _wheelieStopwatch.Start();
-                    }
-                    else if(_wheelieStopwatch.GetSeconds() > TimeToShowWheelie)
-                    {
-                        Run.Instance.GUI.ShowWheelie();
-                    }
+                    _wheelieStopwatch.Start();
                 }
-                else
+                else if (_wheelieStopwatch.GetSeconds() > TimeToShowWheelie)
                 {
-                    _wheelieStopwatch.Stop();
+                    Run.Instance.Gui.ShowWheelie();
                 }
+            }
+            else
+            {
+                _wheelieStopwatch.Stop();
             }
         }
 

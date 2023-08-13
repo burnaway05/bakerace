@@ -1,3 +1,4 @@
+using Gui;
 using UnityEngine;
 
 namespace Core
@@ -8,12 +9,12 @@ namespace Core
 
         [SerializeField] private Settings _settings;
         [SerializeField] private Camera _camera;
-        [SerializeField] private GUI _gui;
+        [SerializeField] private IBikeRaceGui _gui;
         private Game _game;
 
         public Settings Settings => _settings;
         public Game Game => _game;
-        public GUI GUI => _gui;
+        public IBikeRaceGui Gui => _gui;
 
         private void Awake()
         {
@@ -24,6 +25,9 @@ namespace Core
         {
             _game = new Game(_camera);
             _game.Initialize();
+
+            _gui = FindObjectOfType<Gui.Gui>();
+            _gui.Initialize(_game);
         }
 
         private void Update()
