@@ -41,8 +41,8 @@ namespace Core
 
             MoveCamera();
             CheckMaxDistance();
+            _bike.Update();
         }
-
 
         public void FixedUpdate()
         {

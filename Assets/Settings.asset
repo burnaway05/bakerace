@@ -17,6 +17,6 @@ MonoBehaviour:
   CameraSpeed: 100
   MaxBackTireTorque: -2400
   BackTireTorqueStep: -1000
-  BrakeStep: 20
+  BrakeStep: 25
   StartBikePosition: {x: -3, y: 1, z: 0}
   StartTerrainPosition: {x: -32, y: -26, z: 0}

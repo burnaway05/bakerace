@@ -8,6 +8,7 @@ namespace Core
         [SerializeField] private HingeJoint2D _frontWheel;
         [SerializeField] private Rigidbody2D _body;
         [SerializeField] private BackTire _backTire;
+        [SerializeField] private FrontTire _frontTire;
 
         public HingeJoint2D BackWheel => _backWheel;
         public HingeJoint2D FrontWheel => _frontWheel;
@@ -21,9 +22,14 @@ namespace Core
             }
         }
 
-        public bool IsOnGround()
+        public bool IsBackTireOnGround()
         {
             return _backTire.OnGround();
+        }
+
+        public bool IsFrontTireOnGround()
+        {
+            return _frontTire.OnGround();
         }
     }
 }

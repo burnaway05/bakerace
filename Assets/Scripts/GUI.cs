@@ -9,10 +9,14 @@ namespace Core
         [SerializeField] private EventTrigger _right;
         [SerializeField] private EventTrigger _left;
         [SerializeField] private Text _distance;
+        [SerializeField] private Text _wheelie;
+        private Stopwatch _wheelieStopwatch;
 
         private void Start()
         {
             InitializeTriggers();
+            HideWheelie();
+            _wheelieStopwatch = new Stopwatch();
         }
 
         private void InitializeTriggers()
@@ -38,9 +42,29 @@ namespace Core
             _left.triggers.Add(leftUp);
         }
 
+        private void Update()
+        {
+            if (_wheelieStopwatch.IsStarted() && _wheelieStopwatch.GetSeconds() > 1)
+            {
+                _wheelieStopwatch.Stop();
+                HideWheelie();
+            }
+        }
+
         public void UpdateDistance(float distance)
         {
             _distance.text = Mathf.Round(distance).ToString();
+        }
+
+        public void ShowWheelie()
+        {
+            _wheelie.gameObject.SetActive(true);
+            _wheelieStopwatch.Start();
+        }
+
+        public void HideWheelie()
+        {
+            _wheelie.gameObject.SetActive(false);
         }
     }
 }
