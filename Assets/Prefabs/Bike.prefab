@@ -188,7 +188,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -438,7 +438,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.5
+  m_Mass: 2
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -587,10 +587,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.5
+  m_Mass: 7
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 1.05
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -703,7 +703,7 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: -0.19927108, y: 0.81941056}
-      - {x: -0.5462871, y: -0.014798552}
+      - {x: -0.4653333, y: -0.014798552}
       - {x: -0.11451638, y: -0.34197545}
-      - {x: 0.50060433, y: -0.07420486}
+      - {x: 0.3947416, y: -0.061750427}
       - {x: 0.14151764, y: 0.77605873}

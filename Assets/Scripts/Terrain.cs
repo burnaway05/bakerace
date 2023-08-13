@@ -6,9 +6,9 @@ namespace Core
     {
         const int Height = 50;
         const int Width = 50;
-        const float RndHeight = 20;
-        const float RndAmplitude = 5;
-        const int RndHillsCount = 5;
+        const float RndHeight = 25;
+        const float RndAmplitude = 3;
+        const int RndHillsCount = 4;
         const int MainTextureSize = 15;
 
         private TerrainView _view;
