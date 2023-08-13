@@ -1,13 +1,10 @@
-﻿using System.Diagnostics;
-using UnityEngine;
+﻿using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 namespace Core
 {
     internal class Bike
     {
-        private const int MaxBackTireTorque = -1500;
-        private const float BackTireTorqueStep = -50f;
-        private const int BrakeStep = 10;
         private BikeView _view;
         private bool _isAccelerate;
         private bool _isBrake;
@@ -44,11 +41,6 @@ namespace Core
             _isBrake = false;
         }
 
-        public void Update()
-        {
-
-        }
-
         public void FixedUpdate()
         {
             AccelerateHandle();
@@ -60,10 +52,9 @@ namespace Core
             if (_isAccelerate && !_isBrake && _view.IsOnGround())
             {
                 var backWheelPhysics = _view.BackWheel.GetComponent<Rigidbody2D>();
-
-                if (backWheelPhysics.angularVelocity > MaxBackTireTorque)
+                if (backWheelPhysics.angularVelocity > Run.Instance.Settings.MaxBackTireTorque)
                 {
-                    backWheelPhysics.AddTorque(BackTireTorqueStep);
+                    backWheelPhysics.AddTorque(Run.Instance.Settings.BackTireTorqueStep);
                 }
             }
             else
@@ -77,12 +68,25 @@ namespace Core
             if (_isBrake && _view.IsOnGround())
             {
                 _view.BackWheel.useMotor = false;
-                _view.Body.drag += BrakeStep * Time.deltaTime;
+                _view.Body.drag += Run.Instance.Settings.BrakeStep * Time.deltaTime;
             }
             else
             {
                 _view.Body.drag = 0;
             }
+        }
+
+        public void ResetState()
+        {
+            _view.gameObject.SetActive(false);
+
+            _view.transform.position = Run.Instance.Settings.StartBikePosition;
+            _view.transform.rotation = Quaternion.identity;
+
+            _view.BackWheel.transform.rotation = Quaternion.identity;
+            _view.FrontWheel.transform.rotation = Quaternion.identity;
+
+            _view.gameObject.SetActive(true);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Core
     {
         const int Height = 50;
         const int Width = 50;
-        const float RndHeight = 25;
+        const float RndHeight = 20;
         const float RndAmplitude = 5;
         const int RndHillsCount = 5;
         const int MainTextureSize = 15;

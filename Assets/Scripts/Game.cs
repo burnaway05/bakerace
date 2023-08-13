@@ -30,7 +30,15 @@ namespace Core
 
         public void Update()
         {
-            _bike.Update();
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                Accelerate();
+            if (Input.GetKeyUp(KeyCode.RightArrow))
+                StopAccelerate();
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                Brake();
+            if (Input.GetKeyUp(KeyCode.LeftArrow))
+                StopBrake();
+
             MoveCamera();
             CheckMaxDistance();
         }
@@ -88,6 +96,12 @@ namespace Core
                 _maxDistance = passedDistance;
                 Run.Instance.GUI.UpdateDistance(_maxDistance);
             }
+        }
+
+        public void Restart()
+        {
+            _bike.ResetState();
+            _maxDistance = 0;
         }
     }
 }
