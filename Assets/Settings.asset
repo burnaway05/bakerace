@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BikePrefab: {fileID: 3200524243304501839, guid: e737acfd300ad37479bb618439a7b60a, type: 3}
   TerrainPrefab: {fileID: 6231031828943599260, guid: 0fca43da7a199804eafc433b44210241, type: 3}
-  CameraSpeed: 100
+  CameraSpeed: 150
   MaxBackTireTorque: -2400
   BackTireTorqueStep: -1000
   BrakeStep: 25

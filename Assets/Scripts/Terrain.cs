@@ -13,10 +13,9 @@ namespace Core
 
         private TerrainView _view;
 
-        public Terrain(Vector3 position)
+        public Terrain(GameObject prefab, Vector3 position)
         {
-            var settings = Run.Instance.Settings;
-            var obj = Object.Instantiate(settings.TerrainPrefab, position, Quaternion.identity);
+            var obj = Object.Instantiate(prefab, position, Quaternion.identity);
             _view = obj.GetComponent<TerrainView>();
         }
 

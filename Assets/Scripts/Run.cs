@@ -12,9 +12,7 @@ namespace Core
         [SerializeField] private IBikeRaceGui _gui;
         private Game _game;
 
-        public Settings Settings => _settings;
         public Game Game => _game;
-        public IBikeRaceGui Gui => _gui;
 
         private void Awake()
         {
@@ -23,11 +21,11 @@ namespace Core
 
         private void Start()
         {
-            _game = new Game(_camera);
-            _game.Initialize();
-
             _gui = FindObjectOfType<Gui.Gui>();
+            _game = new Game(_settings, _gui, _camera);
+
             _gui.Initialize(_game);
+            _game.Initialize();
         }
 
         private void Update()

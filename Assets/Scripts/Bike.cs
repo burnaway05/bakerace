@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Gui;
+using UnityEngine;
 using Utils;
 using Object = UnityEngine.Object;
 
@@ -11,11 +12,18 @@ namespace Core
         private bool _isAccelerate;
         private bool _isBrake;
         private IStopwatch _wheelieStopwatch;
+        private Settings _settings;
+        private IBikeRaceGui _gui;
+
+        public Bike(Settings settings, IBikeRaceGui gui)
+        {
+            _settings = settings;
+            _gui = gui;
+        }
 
         public void Initialize()
         {
-            var settings = Run.Instance.Settings;
-            var obj = Object.Instantiate(settings.BikePrefab, settings.StartBikePosition, Quaternion.identity);
+            var obj = Object.Instantiate(_settings.BikePrefab, _settings.StartBikePosition, Quaternion.identity);
             _view = obj.GetComponent<BikeView>();
             _wheelieStopwatch = new Stopwatch();
         }
@@ -61,9 +69,9 @@ namespace Core
             if (_isAccelerate && !_isBrake && _view.IsBackTireOnGround())
             {
                 var backWheelPhysics = _view.BackWheel.GetComponent<Rigidbody2D>();
-                if (backWheelPhysics.angularVelocity > Run.Instance.Settings.MaxBackTireTorque)
+                if (backWheelPhysics.angularVelocity > _settings.MaxBackTireTorque)
                 {
-                    backWheelPhysics.AddTorque(Run.Instance.Settings.BackTireTorqueStep);
+                    backWheelPhysics.AddTorque(_settings.BackTireTorqueStep);
                 }
             }
             else
@@ -77,7 +85,7 @@ namespace Core
             if (_isBrake && _view.IsBackTireOnGround())
             {
                 _view.BackWheel.useMotor = false;
-                _view.Body.drag += Run.Instance.Settings.BrakeStep * Time.deltaTime;
+                _view.Body.drag += _settings.BrakeStep * Time.deltaTime;
             }
             else
             {
@@ -95,7 +103,7 @@ namespace Core
                 }
                 else if (_wheelieStopwatch.GetSeconds() > TimeToShowWheelie)
                 {
-                    Run.Instance.Gui.ShowWheelie();
+                    _gui.ShowWheelie();
                 }
             }
             else
@@ -108,7 +116,7 @@ namespace Core
         {
             _view.gameObject.SetActive(false);
 
-            _view.transform.position = Run.Instance.Settings.StartBikePosition;
+            _view.transform.position = _settings.StartBikePosition;
             _view.transform.rotation = Quaternion.identity;
 
             _view.BackWheel.transform.rotation = Quaternion.identity;

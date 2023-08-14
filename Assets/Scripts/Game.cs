@@ -7,42 +7,62 @@ namespace Core
 {
     internal class Game : IBikeControl
     {
+        
         private Bike _bike;
         private List<Terrain> _locations;
         private Camera _camera;
         private float _maxDistance;
+        private Settings _settings;
+        private IBikeRaceGui _gui;
 
-        public Game(Camera camera)
+        public Game(Settings settings, IBikeRaceGui gui, Camera camera)
         {
+            _settings = settings;
+            _gui = gui;
             _camera = camera;
         }
 
         public void Initialize()
         {
-            _bike = new Bike();
+            _bike = new Bike(_settings, _gui);
             _bike.Initialize();
 
             _locations = new List<Terrain>(2);
 
-            var terrain = new Terrain(Run.Instance.Settings.StartTerrainPosition);
+            var terrain = new Terrain(_settings.TerrainPrefab, _settings.StartTerrainPosition);
             _locations.Add(terrain);
             SpawnTerrain();
         }
 
         public void Update()
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-                Accelerate();
-            if (Input.GetKeyUp(KeyCode.RightArrow))
-                StopAccelerate();
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-                Brake();
-            if (Input.GetKeyUp(KeyCode.LeftArrow))
-                StopBrake();
-
+            UpdateKeyboardInput();
             MoveCamera();
             CheckMaxDistance();
             _bike.Update();
+        }
+
+        private void UpdateKeyboardInput()
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                Accelerate();
+            }
+
+            if (Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                StopAccelerate();
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                Brake();
+            }
+
+            if (Input.GetKeyUp(KeyCode.LeftArrow))
+            {
+                StopBrake();
+            }
         }
 
         public void FixedUpdate()
@@ -55,7 +75,7 @@ namespace Core
             if (_locations.Count > 0)
             {
                 var lastTerrain = _locations.Last();
-                var terrain = new Terrain(lastTerrain.GetRightBottomPosition());
+                var terrain = new Terrain(_settings.TerrainPrefab, lastTerrain.GetRightBottomPosition());
                 terrain.DeformMesh(lastTerrain.GetRightTopVertex());
                 lastTerrain.DisableEnterTrigger();
                 _locations.Add(terrain);
@@ -84,18 +104,18 @@ namespace Core
 
         public void MoveCamera()
         {
-            Vector3 end = Vector3.MoveTowards(_camera.transform.position, _bike.GetPosition(), Run.Instance.Settings.CameraSpeed * Time.deltaTime);
+            Vector3 end = Vector3.MoveTowards(_camera.transform.position, _bike.GetPosition(), _settings.CameraSpeed * Time.deltaTime);
             end.z = _camera.transform.position.z;
             _camera.transform.position = end;
         }
 
         public void CheckMaxDistance()
         {
-            var passedDistance = _bike.GetPosition().x - Run.Instance.Settings.StartBikePosition.x;
+            var passedDistance = _bike.GetPosition().x - _settings.StartBikePosition.x;
             if (passedDistance > _maxDistance)
             {
                 _maxDistance = passedDistance;
-                Run.Instance.Gui.UpdateDistance(_maxDistance);
+                _gui.UpdateDistance(_maxDistance);
             }
         }
 
